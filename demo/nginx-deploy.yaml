@@ -24,7 +24,7 @@ spec:
   selector:
     app: apple
   ports:
-    - port: 5678 # Default port for image
+    - port: 5678 
 ---
 kind: Pod
 apiVersion: v1
@@ -47,7 +47,7 @@ spec:
   selector:
     app: banana
   ports:
-    - port: 5678 # Default port for image
+    - port: 5678
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
