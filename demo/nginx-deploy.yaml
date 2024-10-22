@@ -1,63 +1,77 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: podinfo
-  namespace: default
-spec:
-  replicas: 1 
-  selector:
-    matchLabels:
-      app: podinfo
-  template:
-    metadata:
-      labels:
-        app: podinfo
-    spec:
-      containers:
-      - name: podinfo
-        image: ghcr.io/stefanprodan/podinfo:6.7.1
-        ports:
-        - containerPort: 8080
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
----
 apiVersion: v1
-kind: Service
+kind: ServiceAccount
 metadata:
-  name: podinfo
-  namespace: default
+  name: default
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: apple-app
+  labels:
+    app: apple
+spec:
+  containers:
+    - name: apple-app
+      image: hashicorp/http-echo
+      args:
+        - "-text=apple"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: apple-service
 spec:
   selector:
-    app: podinfo
+    app: apple
   ports:
-    - protocol: TCP
-      port: 8080
-      targetPort: 8080
-  type: ClusterIP
+    - port: 5678 # Default port for image
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: banana-app
+  labels:
+    app: banana
+spec:
+  containers:
+    - name: banana-app
+      image: hashicorp/http-echo
+      args:
+        - "-text=banana"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: banana-service
+spec:
+  selector:
+    app: banana
+  ports:
+    - port: 5678 # Default port for image
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: podinfo-ingress
-  namespace: default
+  name: webapp-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"  # Set to true if you're using HTTPS
 spec:
-  ingressClassName: nginx   # Make sure this matches your NGINX Ingress class
+  ingressClassName: nginx
   rules:
-  - host: podinfo.example  # Replace with your domain or hostname
+  - host: webapp.example.com
     http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: podinfo      # Name of the Service for podinfo
-            port:
-              number: 8080      # Port defined in the Service
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: apple-service
+              port:
+                number: 5678
+        - path: /banana
+          pathType: Prefix
+          backend:
+            service:
+              name: banana-service
+              port:
+                number: 5678
