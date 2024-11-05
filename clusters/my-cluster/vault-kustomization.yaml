@@ -1,4 +1,4 @@
-# clusters/dev/vault-kustomization.yaml
+# flux_demo/clusters/dev/vault-kustomization.yaml
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./clusters/stg/apps/vault"
+  path: "./clusters/stg/apps/vault/"  # Ensure this matches the path in gitops_k8s_tools
   prune: true
   sourceRef:
     kind: GitRepository
