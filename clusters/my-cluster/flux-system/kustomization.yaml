@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- gotk-components.yaml
-- gotk-sync.yaml
-- ./clusters/my-cluster/vault-gitrepository.yaml
-- ./clusters/my-cluster/vault-kustomization.yaml
