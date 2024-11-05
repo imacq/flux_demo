@@ -1,0 +1,11 @@
+# clusters/dev/vault-gitrepository.yaml
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: vault-deployment
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/imacq/gitops_k8s_tools.git
+  ref:
+    branch: main
