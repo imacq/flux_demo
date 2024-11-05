@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./clusters/my-cluster"
+  path: "./clusters/stg/apps/vault"
   prune: true
   sourceRef:
     kind: GitRepository
