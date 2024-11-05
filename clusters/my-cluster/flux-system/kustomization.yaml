@@ -3,5 +3,3 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
-- ./clusters/my-cluster/vault-gitrepository.yaml
-- ./clusters/my-cluster/vault-kustomization.yaml
