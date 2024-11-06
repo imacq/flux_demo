@@ -4,7 +4,7 @@ metadata:
   name: vault-app-kustomization
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 1m
   path: "./clusters/stg/apps/vault"
   prune: true
   sourceRef:
